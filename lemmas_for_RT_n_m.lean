@@ -47,12 +47,10 @@ end
 section
 
 lemma infset_neq_empty {A : Type} {S : set A} (H : infinite S) : S ≠ ∅ := 
-by_contradiction
-(suppose H1 : ¬ S ≠ ∅,
+assume H1, 
 have finemp : finite (∅ : set A), from finite_empty,
-have S = (∅ : set A), from dne H1,
-have finite S, by+ rewrite -this at finemp;exact finemp,
-H this)
+have finite S, by+ rewrite -H1 at finemp;exact finemp,
+H this
 
 lemma nonzero_card_of_finite {A : Type} {S : set A} (H : card S ≠ 0) : finite S :=
 by_contradiction
@@ -61,11 +59,9 @@ have card S = 0, from card_of_not_finite this,
 H this)
 
 lemma mem_not_in_diff {A : Type} {S : set A} {a : A} : a ∉ S \ '{a} := 
-by_contradiction
-(suppose ¬ a ∉ S \ '{a},
-have a ∈ S \ '{a}, from dne this,
-have a ∉ '{a}, from not_mem_of_mem_diff this,
-this (mem_singleton a))
+assume H,
+have a ∉ '{a}, from not_mem_of_mem_diff H,
+this (mem_singleton a)
 
 lemma insert_of_diff_singleton {A : Type} {S : set A} {a : A} (H : a ∈ S) : insert a (S \ '{a}) = S :=
 begin
