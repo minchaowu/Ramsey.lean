@@ -6,11 +6,7 @@ noncomputable theory
 proposition ne_empty_of_card_pos {A : Type} {s : set A} (H : card s > 0) : s ≠ ∅ :=
 take H', begin rewrite [H' at H, card_empty at H], exact lt.irrefl 0 H end
 
-proposition insert_subset {A : Type} {s t : set A} {a : A} (amem : a ∈ t) (ssubt : s ⊆ t) : insert a s ⊆ t :=
-take x, assume xias,
-  or.elim (eq_or_mem_of_mem_insert xias)
-    (by simp)
-    (take H, ssubt H)
+proposition insert_subset {A : Type} {s t : set A} {a : A} (amem : a ∈ t) (ssubt : s ⊆ t) : insert a s ⊆ t := by+ intros x h; apply or.elim h;simp;intro h';apply ssubt h'
 
 proposition eq_singleton_of_forall_eq {A : Type} {s : set A} {x : A} (xs : x ∈ s) (H : ∀₀ y ∈ s, y = x) : s = '{x} :=
 ext (take y, iff.intro 
@@ -36,8 +32,7 @@ eq_singleton_of_forall_eq xs (take y, assume ys, eq.symm (eq_of_card_eq_one H xs
 proposition exists_eq_singleton_of_card_eq_one {A : Type} {s : set A} (H : card s = 1) : ∃ x, s = '{x} := 
 have s ≠ ∅, from ne_empty_of_card_pos (by rewrite H; apply dec_trivial),
 obtain (x : A) (xs : x ∈ s), from exists_mem_of_ne_empty this,
-exists.intro x (eq_singleton_of_card_eq_one H xs)
-
+show _, from exists.intro x (eq_singleton_of_card_eq_one H xs)
 
 section
 parameter X : set ℕ
@@ -46,7 +41,6 @@ parameter Hinf : infinite X
 parameter Hc : is_coloring X 1 2 c
 
 definition c' (n : ℕ) := c '{n}
-
 
 theorem finite_color_for_rt_1_2 (n : ℕ) (H : n ∈ X): c' n < 2 := 
 have sub : '{n} ⊆ X, from 
