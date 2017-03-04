@@ -65,9 +65,7 @@ have is_coloring (S_n' \ '{a_n'}) (k+1) 2 c_n, from
      this Hr),
   have insert a_n' x ∈ tuples X (k+2), from and.intro this (and.intro cardanx finins),
   Hc this, -- from Hc and definition of c_n.
-
 have H0 : ∃ h, h ⊆ (S_n' \ '{a_n'}) ∧ infinite h ∧ is_homogeneous (S_n' \ '{a_n'}) c_n (k+1) 2 h,  from IH (S_n' \ '{a_n'}) c_n infSn'an' this,
-
 let S_n := some H0 in
 have S_n_spec : S_n ⊆ (S_n' \ '{a_n'}) ∧ infinite S_n ∧ is_homogeneous (S_n' \ '{a_n'}) c_n (k+1) 2 S_n, from some_spec H0,
 have sub4 : S_n ⊆ (S_n' \ '{a_n'}), from proof and.left S_n_spec qed,
